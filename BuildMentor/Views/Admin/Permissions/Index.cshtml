@@ -1,0 +1,79 @@
+﻿@model IEnumerable<BuildMentor.Database.Entities.ToolPermission>
+
+@{
+    ViewData["Title"] = @Resource.ResourceManager.GetString("Tool Permissions");
+    Layout = "_AdminLayout";
+}
+@using BuildMentor.Resources;
+<h1>@ViewData["Title"]</h1>
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>@Resource.ResourceManager.GetString("User Email")</th>
+                        <th>@Resource.ResourceManager.GetString("Tool Name")</th>
+                        <th>@Resource.ResourceManager.GetString("Tool Image")</th>
+                        <th>@Resource.ResourceManager.GetString("Actions")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in Model)
+                    {
+                        <tr>
+                            <td>@request.Id</td>
+                            <td>@request.User.Email</td>
+                            <td>@request.Tool.Name</td>
+                            <td><img src="@request.Tool.Image.Url()" alt="@request.Tool.Name" class="img-thumbnail" style="width: 100px;"></td>
+                            <td>
+                                <button class="btn btn-danger" onclick="remove(@request.Id)">@Resource.ResourceManager.GetString("Remove")</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        function remove(id) {
+            swal.fire({
+                title: '@Resource.ResourceManager.GetString("Enter removal message")',
+                input: 'text',
+                showCancelButton: true,
+                confirmButtonText: '@Resource.ResourceManager.GetString("Submit")',
+                showLoaderOnConfirm: true,
+                preConfirm: (message) => {
+                    return fetch(`/Admin/Permissions/Remove/${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        body: JSON.stringify(message)
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText)
+                            }
+                            return response.json();
+                        })
+                        .catch(error => {
+                            swal.showValidationMessage(
+                                `@Resource.ResourceManager.GetString("An error occurred. Please try again.")`,
+                            )
+                        })
+                },
+                allowOutsideClick: () => !swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swal.fire('@Resource.ResourceManager.GetString("Success")', '@Resource.ResourceManager.GetString("Permission removed.")', 'success');
+                    window.location.reload();
+                }
+            });
+        }
+    </script>
+}

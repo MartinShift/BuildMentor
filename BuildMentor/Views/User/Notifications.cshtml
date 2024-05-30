@@ -1,0 +1,70 @@
+﻿@model IEnumerable<BuildMentor.Database.Entities.UserNotification>
+@using BuildMentor.Database.Enums
+@using BuildMentor.Resources;
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = @Resource.ResourceManager.GetString("Notifications");
+}
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <div class="list-group">
+        @foreach (var item in Model)
+        {
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">@Resource.ResourceManager.GetString("From"): @item.Admin.Email</h6>
+                    <div class="dropdown no-arrow show">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="position: absolute; transform: translate3d(-158px, 19px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-end">
+                            <div class="dropdown-header">Actions:</div>
+                            <a class="dropdown-item copy-to-clipboard" href="#" data-text="@(item.Comment)">@Resource.ResourceManager.GetString("Copy Message Body")</a>
+                            <a class="dropdown-item copy-to-clipboard" href="#" data-text="@item.Admin.Email">@Resource.ResourceManager.GetString("Copy Admin Email")</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/Notifications/Remove/User/@item.Id">@Resource.ResourceManager.GetString("Remove")</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2 mt-2">
+                        <p class="text-gray p-2">
+                            @item.Comment
+                        </p>
+                    </div>
+                    @if (item.Type == NotificationType.MantenaceCompleted)
+                    {
+                        <a href="Notifications/Download/@item.Id" class="btn btn-primary">@Resource.ResourceManager.GetString("Download Maintenance Document")</a>
+                    }
+                </div>
+            </div>
+
+        }
+    </div>
+    @section Scripts {
+        <script>
+            document.querySelectorAll('.copy-to-clipboard').forEach(item => {
+                item.addEventListener('click', event => {
+                    event.preventDefault();
+
+                    const textToCopy = event.target.getAttribute('data-text');
+
+                    navigator.clipboard.writeText(textToCopy)
+                        .then(() => {
+                            console.log('Text copied to clipboard');
+                        })
+                        .catch(err => {
+                            console.error('Could not copy text: ', err);
+                        });
+                });
+            });
+        </script>
+    }
+</body>
+</html>
+<head>
+
+</head>

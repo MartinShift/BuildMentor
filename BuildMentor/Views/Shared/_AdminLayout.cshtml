@@ -1,0 +1,241 @@
+﻿ @{
+
+}
+@using BuildMentor.Resources;
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/static/images/favicon.ico" />
+    <title>@ViewData["Title"]</title>
+
+    <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <style type="text/css" id="operaUserStyle"></style>
+    <style type="text/css"></style>
+    @RenderSection("styles",required:false)
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        @RenderSection("sidebar",required: false)
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/Admin">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-hammer"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Build Mentor</div>
+            </a>
+
+            <hr class="sidebar-divider my-0">
+
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>@Resource.ResourceManager.GetString("Dashboard")</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">
+                @Resource.ResourceManager.GetString("Tools")
+            </div>
+     
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/Tools">
+                    <i class="fas fa-fw fa-hammer"></i>
+                    <span>@Resource.ResourceManager.GetString("Tools")</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/Permissions">
+                    <i class="fas fa-fw fa-file"></i>
+                    <span>@Resource.ResourceManager.GetString("Permissions")</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/PermissionRequests">
+                    <i class="fas fa-fw fa-file-excel"></i>
+                    <span>@Resource.ResourceManager.GetString("Permission Requests")</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/AdminRequests">
+                    <i class="fas fa-fw fa-comment-dots"></i>
+                    <span>@Resource.ResourceManager.GetString("Admin Requests")</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/Users">
+                    <i class="fas fa-fw fa-user-tie"></i>
+                    <span>@Resource.ResourceManager.GetString("Users")</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/Notifications">
+                    <i class="fas fa-fw fa-bell"></i>
+                    <span>@Resource.ResourceManager.GetString("Notifications")</span>
+                </a>
+            </li>
+
+            
+
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <div id="content">
+
+                @RenderSection("header", required: false)
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="languagesDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-language fa-fw"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="languagesDropdown">
+                                <h6 class="dropdown-header">
+                                    @Resource.ResourceManager.GetString("Language Selection")
+                                </h6>
+                                <button data-lang="en-US" class="dropdown-item dropdown-lang-item" id="dropdown-lang-item" type="button">English</button>
+                                <button data-lang="uk-UA" class="dropdown-item dropdown-lang-item" id="dropdown-lang-item" type="button">Українська</button>
+                            </div>
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+
+                            <div class="topbar-divider d-none d-sm-block"></div>
+
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @if(User.Identity.IsAuthenticated){
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.FindFirst(System.Security.Claims.ClaimTypes.Name).Value</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">@Resource.ResourceManager.GetString("Not Signed In")</span>
+
+                                    }
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="/Profile/MyProfile">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        @Resource.ResourceManager.GetString("Profile")
+                                    </a>
+                                    <a class="dropdown-item" href="/Profile/EditProfile">
+                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        @Resource.ResourceManager.GetString("Edit Profile")
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/Account/Logout">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        @Resource.ResourceManager.GetString("Logout")
+                                    </a>
+                                </div>
+                              
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="/Account/Login" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@Resource.ResourceManager.GetString("Login")</span>
+                                </a>
+                                <a class="nav-link dropdown-toggle" href="/Account/Register" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@Resource.ResourceManager.GetString("Register")</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                </nav>
+
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+
+            </div>
+            @RenderSection("footer", required: false)
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright © Build Mentor 2024</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top" style="display: none;">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/sb-admin-2.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            $('.dropdown-lang-item').click(function () {
+                var selectedLang = $(this).data('lang');
+                console.log(selectedLang);
+                fetch('/Language/ChangeLanguage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(selectedLang),
+                })
+                    .then(function (response) {
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            console.error('Localization update failed:', response.statusText);
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error('Localization update failed:', error);
+                    });
+            });
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

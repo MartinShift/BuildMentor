@@ -1,0 +1,30 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
+
+namespace Shift_Tech.Controllers;
+public class LanguageController : Controller
+{
+    public LanguageController()
+    {
+    }
+    public IActionResult Index()
+    {
+        return View();
+    }
+    [HttpPost]
+    public IActionResult ChangeLanguage([FromBody] string selectedLanguage)
+    {
+        Response.Cookies.Append("SelectedLanguage", selectedLanguage, new CookieOptions
+        {
+            Expires = DateTimeOffset.Now.AddYears(1),
+            Path = "/",
+            HttpOnly = false,
+        });
+        CultureInfo.CurrentCulture = new CultureInfo(selectedLanguage);
+        CultureInfo.CurrentUICulture = new CultureInfo(selectedLanguage);
+
+        return Ok();
+    }
+
+
+}

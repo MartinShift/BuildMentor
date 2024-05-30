@@ -1,0 +1,139 @@
+﻿@model BuildMentor.Models.UserProfile
+@using BuildMentor.Database.Enums
+@{
+    ViewData["Title"] = @Resource.ResourceManager.GetString("Edit Profile");
+    Layout = User.IsInRole("ADMIN") ? "_AdminLayout" : "_Layout";
+}
+@using BuildMentor.Resources;
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+<form method="post" enctype="multipart/form-data" id="editProfileForm">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="text-muted">@Model.Login</h4>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-12">
+                    <label>@Resource.ResourceManager.GetString("Name"):</label>
+                    <input placeholder="" type="text" name="Name" value="@Model.Name" class="form-control form-control-user" />
+            </div>
+        </div>
+       
+        <div class="row mt-3">
+            <div class="col-md-12">
+                    <label>@Resource.ResourceManager.GetString("Job"):</label>
+                <select name="Job" class="form-control">
+                    @foreach (var job in Enum.GetValues(typeof(BuilderJobs)))
+                    {
+                            <option value="@job" @(Model.Job.ToString() == job.ToString() ? "selected" : "")>@Resource.ResourceManager.GetString(job.ToString())</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="mb-3">
+                        <img id="avatarPreview" src="@Model.AvatarUrl" id="avatarInput" alt="User avatar" class="img-fluid rounded-circle " style="width:150px; height:150px;" />
+                </div>
+                    <label>@Resource.ResourceManager.GetString("Avatar"):</label>
+                    <input placeholder="@Resource.ResourceManager.GetString("Avatar")" type="file" name="UploadedAvatar" id="avatarInput" class="form-control-file form-control" />
+            </div>
+        </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <label>@Resource.ResourceManager.GetString("Email"):</label>
+                    <input placeholder="@Resource.ResourceManager.GetString("Email")" type="email" name="Email" value="@Model.Email" class="form-control form-control-user" />
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <label>@Resource.ResourceManager.GetString("Phone Number"):</label>
+                    <input placeholder="@Resource.ResourceManager.GetString("Phone Number")" type="tel" name="PhoneNumber" value="@Model.PhoneNumber" class="form-control" />
+                </div>
+            </div>
+        <div class="row mt-3">
+                <div class="col-md-12">
+                    <label>@Resource.ResourceManager.GetString("City"):</label>
+                    <input placeholder="@Resource.ResourceManager.GetString("City")" type="text" name="City" value="@Model.City" class="form-control" />
+                </div>
+            </div>
+        <div class="row mt-3">
+                <div class="col-md-12">
+                    <label>@Resource.ResourceManager.GetString("Country"):</label>
+                    <input placeholder="@Resource.ResourceManager.GetString("Country")" type="text" name="Country" value="@Model.Country" class="form-control" />
+                </div>
+            </div>
+        <div class="row mt-3">
+                <div class="col-md-12">
+                    <label>@Resource.ResourceManager.GetString("Address"):</label>
+                    <input placeholder="@Resource.ResourceManager.GetString("Address")" type="text" name="Address" value="@Model.Address" class="form-control" />
+                </div>
+            </div>
+        <div class="row mt-3">
+                <div class="col-md-12">
+                    <label>@Resource.ResourceManager.GetString("Birth Date"):</label>
+                    <input placeholder="@Resource.ResourceManager.GetString("Birth Date")" type="date" name="BirthDate" value="@Model.BirthDate" class="form-control" />
+                </div>
+            </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">@Resource.ResourceManager.GetString("Submit")</button>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+@section scripts {
+    <script>
+        document.getElementById('avatarInput').addEventListener('change', function(e) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatarPreview').src = e.target.result;
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        });
+        document.getElementById('editProfileForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            fetch('/Profile/EditProfile', {
+                method: 'POST',
+                body: new FormData(this)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        Swal.fire({
+                            title: '@Resource.ResourceManager.GetString("Success")',
+                            text: '',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                                window.location.href = '/Profile/MyProfile';
+                        });
+                    } else {
+                        Swal.fire({
+                            title: '@Resource.ResourceManager.GetString("Error")',
+                            text: '@Resource.ResourceManager.GetString("An error occurred. Please try again.")',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        title: 'Error',
+                        text: '@Resource.ResourceManager.GetString("An error occurred. Please try again.")',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+        });
+
+    </script>
+}
+</html>

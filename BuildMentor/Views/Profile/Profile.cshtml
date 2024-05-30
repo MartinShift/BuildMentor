@@ -1,0 +1,43 @@
+﻿@model BuildMentor.Models.UserProfile
+@{
+    ViewData["Title"] = @Resource.ResourceManager.GetString("User Profile");
+    Layout = User.IsInRole("ADMIN") ?  "_AdminLayout" : "_Layout";
+}
+@using BuildMentor.Resources;
+<head>
+
+</head>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="@Model.AvatarUrl" alt="User avatar" class="rounded-circle" style="width:210px; height:210px;" />
+        </div>
+        <div class="col-md-8">
+            <h2>@Model.Name
+                @if (Model.IsAdmin)
+                {
+                    <i class="fas fa-user-shield" title="@Resource.ResourceManager.GetString("Admin")" style="font-size:25px;"></i>
+                }
+            </h2>
+            <h3 class="tet">@Resource.ResourceManager.GetString(Model.Job.ToString())</h3>
+            <h4 class="text-muted">@Model.Login</h4>
+            @if (User.IsInRole("ADMIN") || @User.FindFirst(System.Security.Claims.ClaimTypes.Name).Value == Model.Login)
+            {
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-2">@Resource.ResourceManager.GetString("Email"): @Model.Email</p>
+                            <p class="mb-2">@Resource.ResourceManager.GetString("Phone Number"): @Model.PhoneNumber</p>
+                            <p class="mb-2">@Resource.ResourceManager.GetString("City"): @Model.City</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-2">@Resource.ResourceManager.GetString("Country"): @Model.Country</p>
+                            <p class="mb-2">@Resource.ResourceManager.GetString("Address"): @Model.Address</p>
+                            <p class="mb-2">@Resource.ResourceManager.GetString("Birth Date"): @Model.BirthDate.ToShortDateString()</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

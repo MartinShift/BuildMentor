@@ -1,0 +1,29 @@
+﻿@model IEnumerable<BuildMentor.Database.Entities.Tool>
+@using BuildMentor.Resources;
+@{
+    ViewData["Title"] = @Resource.ResourceManager.GetString("Browse Tools");
+    Layout = "_Layout";
+
+}
+<style>
+    .tool-image {
+        width: 100%;
+        height: 300px;
+        object-fit: contain; 
+    }
+</style>
+<div class="row">
+    @foreach (var tool in Model)
+    {
+        <div class="col-md-4" style="width:400px;">
+            <div class="card mb-4">
+                <img class="card-img-top tool-image" src="@tool.Image.Url()" alt="@tool.Name">
+                <div class="card-body">
+                    <h5 class="card-title">@tool.Name</h5>
+                    <p class="card-text">@Resource.ResourceManager.GetString("Price"): @tool.Price</p>
+                    <a class="btn btn-primary" href="/User/ToolDetails/@tool.Id">@Resource.ResourceManager.GetString("View")</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,12 @@
+﻿@model BuildMentor.Database.Entities.Tool
+@using BuildMentor.Resources;
+@{
+    ViewData["Title"] = @Resource.ResourceManager.GetString("Tool Details") ;
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @await Html.PartialAsync("_ToolDetails", Model)
+    </div>
+</div>

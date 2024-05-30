@@ -1,0 +1,90 @@
+﻿@model List<BuildMentor.Database.Entities.Tool>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = @Resource.ResourceManager.GetString("Tools");
+}
+@using BuildMentor.Resources;
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a href="Tools/Add" class="btn btn-primary">@Resource.ResourceManager.GetString("Add Tool")</a>
+</p>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>@Resource.ResourceManager.GetString("Image")</th>
+                        <th>@Resource.ResourceManager.GetString("Name")</th>
+                        <th>@Resource.ResourceManager.GetString("Description")</th>
+                        <th>@Resource.ResourceManager.GetString("Price")</th>
+                        <th>@Resource.ResourceManager.GetString("Instructions")</th>
+                        <th>@Resource.ResourceManager.GetString("Actions")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tool in Model)
+                    {
+                        <tr>
+                            <td>@tool.Id</td>
+                            <td><a href="/View/Tool/@tool.Id"><img style="max-width:80px; max-height80px; " src="@tool.Image.Url()" /></a></td>
+                            <td>@tool.Name</td>
+                            <td>@(tool.Description.Length > 50 ? (tool.Description.Substring(0, 50) + "...") : tool.Description)</td>
+                            <td>@tool.Price.ToString()</td>
+                            <td><a class="btn btn btn-primary" href="/Admin/Instructions/@tool.Id">@Resource.ResourceManager.GetString("Instructions")</a></td>
+                            <td>
+                                <a href="/Admin/Tools/Edit/@tool.Id" class="btn btn-sm btn-primary">@Resource.ResourceManager.GetString("Edit")</a>
+                                <button class="btn btn-sm btn-danger delete-btn" data-id="@tool.Id">@Resource.ResourceManager.GetString("Delete")</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const toolId = this.dataset.id;
+                swal.fire({
+                    title: '@Resource.ResourceManager.GetString("Confirm deletion")?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: '@Resource.ResourceManager.GetString("Delete")'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/Admin/Tools/Delete/${toolId}`, {
+                            method: 'POST'
+                        }).then(response => {
+                            if (response.ok) {
+                                window.location.reload();
+                            } else {
+                                swal.fire({
+                                    title: '@Resource.ResourceManager.GetString("Error")',
+                                    text: `@Resource.ResourceManager.GetString("An error occurred. Please try again.")`,
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        }).catch(error => {
+                            console.error('Error:', error);
+                            swal.fire({
+                                title: '@Resource.ResourceManager.GetString("Error")',
+                                text: `@Resource.ResourceManager.GetString("An error occurred. Please try again.")`,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

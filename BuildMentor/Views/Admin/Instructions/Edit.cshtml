@@ -1,0 +1,89 @@
+﻿@model BuildMentor.Models.InstructionModel
+@{
+    ViewData["Title"] = @Resource.ResourceManager.GetString("Edit Instruction");
+    Layout = "_AdminLayout";
+}
+@using BuildMentor.Resources;
+<h2>@ViewData["Title"]</h2>
+<div class="form-group">
+    <label for="Title">@Resource.ResourceManager.GetString("Title")</label>
+    <input type="text" id="Title" name="Title" class="form-control" value="@Model.Title" />
+</div>
+<div class="form-group">
+    <label for="Description">@Resource.ResourceManager.GetString("Description")</label>
+    <textarea id="Description" name="Description" class="form-control">@Model.Description</textarea>
+</div>
+<div class="form-group">
+    <label for="ExternalResources">@Resource.ResourceManager.GetString("External Resources")</label>
+    <div id="externalResources">
+        @foreach (var resource in Model.ExternalResources)
+        {
+            <div class="external-resource">
+                <input type="text" name="ExternalResourceTitle" placeholder="@Resource.ResourceManager.GetString("Title")" class="form-control mt-3" value="@resource.Title" />
+                <input type="url" name="ExternalResourceLink" placeholder="@Resource.ResourceManager.GetString("Link")" class="form-control mt-3" value="@resource.Link" />
+                <button type="button" class="btn btn-danger remove-resource-btn mt-3">@Resource.ResourceManager.GetString("Remove")</button>
+            </div>
+        }
+    </div>
+    <button type="button" id="addResourceBtn" class="btn btn-secondary">@Resource.ResourceManager.GetString("Add Resource")</button>
+</div>
+
+<button type="button" id="submitBtn" class="btn btn-primary">@Resource.ResourceManager.GetString("Save Changes")</button>
+
+@section Scripts {
+    <script>
+        document.getElementById('addResourceBtn').addEventListener('click', function () {
+            const externalResourceHtml = `
+                                <div class="external-resource">
+                                            <input type="text" name="ExternalResourceTitle" placeholder="@Resource.ResourceManager.GetString("Title")" class="form-control mt-3" />
+                                            <input type="url" name="ExternalResourceLink" placeholder="@Resource.ResourceManager.GetString("Link")" class="form-control mt-3" />
+                                            <button type="button" class="btn btn-danger remove-resource-btn mt-3">@Resource.ResourceManager.GetString("Remove")</button>
+                                </div>`;
+            document.getElementById('externalResources').insertAdjacentHTML('beforeend', externalResourceHtml);
+        });
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('remove-resource-btn')) {
+                event.target.closest('.external-resource').remove();
+            }
+        });
+        document.getElementById('submitBtn').addEventListener('click', function () {
+            const instructionData = {
+                Id: `@Model.Id`,
+                Title: document.getElementById('Title').value,
+                Description: document.getElementById('Description').value,
+                ExternalResources: Array.from(document.querySelectorAll('.external-resource')).map(resource => {
+                    return {
+                        Title: resource.querySelector('[name="ExternalResourceTitle"]').value,
+                        Link: resource.querySelector('[name="ExternalResourceLink"]').value
+                    };
+                }),
+                ToolId: `@Model.ToolId`,
+            };
+
+            fetch('/Admin/Instructions/Update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(instructionData)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = "/Admin/Instructions/@Model.ToolId";
+                    } else {
+                        return response.json().then(errorData => {
+                            swal.fire({
+                                title: '@Resource.ResourceManager.GetString("Error")',
+                                text: `@Resource.ResourceManager.GetString("An error occurred. Please try again.")`,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error.message);
+                });
+        });
+    </script>
+}

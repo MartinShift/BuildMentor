@@ -1,0 +1,58 @@
+﻿@model BuildMentor.Database.Entities.Tool
+@using BuildMentor.Resources;
+@{
+    ViewData["Title"] = @Resource.ResourceManager.GetString("Tool Details");
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @await Html.PartialAsync("_ToolDetails", (BuildMentor.Database.Entities.Tool)Model)
+        <button class="btn btn-primary request-btn" id="request-btn">@Resource.ResourceManager.GetString("Request")</button>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        document.querySelectorAll('.request-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                swal.fire({
+                    title: '@Resource.ResourceManager.GetString("Enter request message")',
+                    input: 'text',
+                    showCancelButton: true,
+                    confirmButtonText: '@Resource.ResourceManager.GetString("Submit")',
+                    showLoaderOnConfirm: true,
+                    preConfirm: (message) => {
+                        return fetch(`/User/RequestTool/${@Model.Id}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest',
+                            },
+                            body: JSON.stringify(message)
+                        })
+                            .then(response => {
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.error) {
+                                    swal.showValidationMessage(`@Resource.ResourceManager.GetString("Request failed")`)
+                                }
+                            })
+                            .catch(error => {
+                                console.log(error);
+                                swal.showValidationMessage(
+                                    '@Resource.ResourceManager.GetString("An error occurred. Please try again.")'
+                                )
+                            })
+                    },
+                    allowOutsideClick: () => !swal.isLoading()
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        swal.fire('@Resource.ResourceManager.GetString("Success")', '@Resource.ResourceManager.GetString("Request submitted")', 'success');
+                    }
+                });
+            });
+        });
+    </script>
+}

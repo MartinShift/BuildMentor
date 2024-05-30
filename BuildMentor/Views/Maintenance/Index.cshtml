@@ -1,0 +1,162 @@
+﻿@model BuildMentor.Database.Entities.UserTool
+
+@{
+    ViewData["Title"] = @Resource.ResourceManager.GetString("Tool Status");
+    Layout = "_Layout";
+}
+@using BuildMentor.Resources;
+<div class="tool-details">
+    @await Html.PartialAsync("_ToolDetails", Model.Tool)
+    <div class="mt-3 mb-3 g-3">
+    @if (Model.Condition == BuildMentor.Database.Enums.Condition.NeedsMaintenance || Model.Condition == BuildMentor.Database.Enums.Condition.NeedsReplacement)
+    {
+            <button class="btn btn-warning request-btn">@Resource.ResourceManager.GetString("Maintenance")</button>
+    }
+            <button class="btn btn-primary status-btn">@Resource.ResourceManager.GetString("Set status")</button>
+
+    @if (Model.Condition == BuildMentor.Database.Enums.Condition.UnderMaintenance)
+    {
+            <button class="btn btn-danger finish-btn">@Resource.ResourceManager.GetString("Finish Maintenance")</button>
+    }
+    </div>
+</div>
+<script>
+    document.querySelectorAll('.request-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            swal.fire({
+                title: '@Resource.ResourceManager.GetString("Enter request message and price")',
+                html: '<input id="swal-input-message" class="swal2-input" placeholder="@Resource.ResourceManager.GetString("Message")">' +
+                    '<input id="swal-input-price" class="swal2-input" placeholder="@Resource.ResourceManager.GetString("Price")">',
+                focusConfirm: false,
+                preConfirm: () => {
+                    let message = document.getElementById('swal-input-message').value;
+                    let price = document.getElementById('swal-input-price').value;
+                    return { message: message, price: price };
+                },
+                confirmButtonText: 'Submit',
+                showLoaderOnConfirm: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/Maintenance/Send/${@Model.Id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        body: JSON.stringify(result.value)
+                    })
+                        .then(response => {
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.error) {
+                                swal.showValidationMessage(`Request failed: ${data.error}`)
+                            } else {
+                                swal.fire('@Resource.ResourceManager.GetString("Success")', '@Resource.ResourceManager.GetString("Request Submitted")', 'success');
+                                window.location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            swal.showValidationMessage(`@Resource.ResourceManager.GetString("An error occurred. Please try again.")`)
+                        })
+                }
+            });
+        });
+    });
+
+    document.querySelectorAll('.status-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            let id = this.getAttribute('data-id');
+
+            swal.fire({
+                title: '@Resource.ResourceManager.GetString("Select new status")',
+                input: 'select',
+                inputOptions: {
+                    '0': '@Resource.ResourceManager.GetString("Working")',
+                    '1': '@Resource.ResourceManager.GetString("NeedsMaintenance")',
+                    '2': '@Resource.ResourceManager.GetString("NeedsReplacement")',
+                    },
+            showCancelButton: true,
+                confirmButtonText: '@Resource.ResourceManager.GetString("Submit")',
+            showLoaderOnConfirm: true,
+            preConfirm: (newStatus) => {
+                return fetch(`/Maintenance/Update/${@Model.Id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: JSON.stringify(newStatus)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText)
+                        }
+                        return response.json();
+                    })
+                    .catch(error => {
+                            swal.showValidationMessage(`@Resource.ResourceManager.GetString("An error occurred. Please try again.")`)
+                    })
+            },
+            allowOutsideClick: () => !swal.isLoading()
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    swal.fire('@Resource.ResourceManager.GetString("Success")', '@Resource.ResourceManager.GetString("Status has been updated.")', 'success');
+                    window.location.reload();
+                }
+            });
+            });
+        });
+
+    document.querySelectorAll('.finish-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            let id = this.getAttribute('data-id');
+
+            swal.fire({
+                title: '@Resource.ResourceManager.GetString("Upload payment document")',
+                html: '<input id="swal-input-file" class="form-control-file form-control" type="file" accept=".jpg,.png,.pdf,.docx" required />',
+                focusConfirm: false,
+                preConfirm: () => {
+                    let fileInput = document.getElementById('swal-input-file');
+                    if (!fileInput.files.length) {
+                        swal.showValidationMessage('@Resource.ResourceManager.GetString("Please select a file")');
+                        return false;
+                    }
+                    return true;
+                },
+                confirmButtonText: '@Resource.ResourceManager.GetString("Submit")',
+                showLoaderOnConfirm: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let fileInput = document.getElementById('swal-input-file');
+                    let file = fileInput.files[0];
+                    let formData = new FormData();
+                    formData.append('file', file);
+
+                    fetch(`/Maintenance/Complete/${@Model.Id}`, {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText)
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.error) {
+                                swal.showValidationMessage(`@Resource.ResourceManager.GetString("Upload failed")`)
+                            } else {
+                                swal.fire('@Resource.ResourceManager.GetString("Success")', '@Resource.ResourceManager.GetString("Maintenance has been completed.")', 'success');
+                                window.location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            swal.showValidationMessage(`@Resource.ResourceManager.GetString("An error occurred. Please try again.")`)
+                        })
+                }
+            });
+        });
+    });
+</script>

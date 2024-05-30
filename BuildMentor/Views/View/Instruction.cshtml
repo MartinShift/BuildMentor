@@ -1,0 +1,20 @@
+﻿@model BuildMentor.Database.Entities.Instruction
+@using BuildMentor.Resources;
+@{
+    ViewData["Title"] = @Resource.ResourceManager.GetString("Instruction Details");
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>@Model.Title</h2>
+        <p>@Model.Description</p>
+        <h3>@Resource.ResourceManager.GetString("External Resources"):</h3>
+        <ul>
+            @foreach (var resource in Model.ExternalResources)
+            {
+                <li><a href="@resource.Link">@resource.Title</a></li>
+            }
+        </ul>
+    </div>
+</div>

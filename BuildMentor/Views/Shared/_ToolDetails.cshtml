@@ -1,0 +1,18 @@
+﻿@model BuildMentor.Database.Entities.Tool
+@using BuildMentor.Resources;
+<div class="card me-5">
+    <img class="card-img-top img-fluid" style="max-height:450px; width:auto; object-fit:contain;" src="@Model.Image.Url()" alt="@Model.Name">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <p class="card-text">@Resource.ResourceManager.GetString("Price"): @Model.Price</p>
+        <p class="card-text">@Resource.ResourceManager.GetString("Description"): @Model.Description</p>
+        <p class="card-text">@Resource.ResourceManager.GetString("User Count"): @Model.UserTools.Count</p>
+        <h6>@Resource.ResourceManager.GetString("Instructions"):</h6>
+        <ul>
+            @foreach (var instruction in Model.Instructions)
+            {
+                <li><a href="/View/Instruction/@instruction.Id">@instruction.Title</a></li>
+            }
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,117 @@
+﻿@model IEnumerable<BuildMentor.Database.Entities.AdminRequest>
+
+@{
+    ViewData["Title"] = @Resource.ResourceManager.GetString("Admin Requests");
+    Layout = "_AdminLayout";
+}
+@using BuildMentor.Resources;
+<h1>@ViewData["Title"]</h1>
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>@Resource.ResourceManager.GetString("User Email")</th>
+                        <th>@Resource.ResourceManager.GetString("User Avatar")</th>
+                        <th>@Resource.ResourceManager.GetString("Comment")</th>
+                        <th>@Resource.ResourceManager.GetString("Actions")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in Model)
+                    {
+                        <tr>
+                            <td>@request.Id</td>
+                            <td>@request.Sender.Email</td>
+                            <td><img class="img-fluid rounded-circle" style="max-height:70px; max-width:70px;" src="@(request.Sender.Avatar == null ?  "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1200px-No-Image-Placeholder.svg.png" : request.Sender.Avatar.Url())"></td>
+                            <td>@request.Message</td>
+                            <td>
+                                <button class="btn btn-success" onclick="approve(@request.Id)">@Resource.ResourceManager.GetString("Approve")</button>
+                                <button class="btn btn-danger" onclick="deny(@request.Id)">@Resource.ResourceManager.GetString("Deny")</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        function approve(id) {
+            swal.fire({
+                title: '@Resource.ResourceManager.GetString("Enter approval message")',
+                input: 'text',
+                showCancelButton: true,
+                confirmButtonText: '@Resource.ResourceManager.GetString("Submit")',
+                showLoaderOnConfirm: true,
+                preConfirm: (message) => {
+                    return fetch(`/Admin/AdminRequests/Approve/${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        body: JSON.stringify(message)
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText)
+                            }
+                            return response.json();
+                        })
+                        .catch(error => {
+                            swal.showValidationMessage(
+                                `@Resource.ResourceManager.GetString("An error occurred. Please try again.")`
+                            )
+                        })
+                },
+                allowOutsideClick: () => !swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swal.fire('@Resource.ResourceManager.GetString("Success")', '@Resource.ResourceManager.GetString("Request approved.")', 'success');
+                    window.location.reload();
+                }
+            });
+        }
+
+        function deny(id) {
+            swal.fire({
+                title: '@Resource.ResourceManager.GetString("Enter denial reason")',
+                input: 'text',
+                showCancelButton: true,
+                confirmButtonText: '@Resource.ResourceManager.GetString("Submit")',
+                showLoaderOnConfirm: true,
+                preConfirm: (message) => {
+                    return fetch(`/Admin/AdminRequests/Remove/${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        body: JSON.stringify(message)
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText)
+                            }
+                            return response.json();
+                        })
+                        .catch(error => {
+                            swal.showValidationMessage(
+                                `@Resource.ResourceManager.GetString("An error occurred. Please try again.")`
+                            )
+                        })
+                },
+                allowOutsideClick: () => !swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swal.fire('@Resource.ResourceManager.GetString("Success")', '@Resource.ResourceManager.GetString("Request denied.")', 'success');
+                    window.location.reload();
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,84 @@
+﻿@model List<BuildMentor.Database.Entities.User>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = @Resource.ResourceManager.GetString("User Management");
+}
+@using BuildMentor.Resources;
+<h2>@ViewData["Title"]</h2>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>@Resource.ResourceManager.GetString("Avatar")</th>
+                        <th>@Resource.ResourceManager.GetString("Name")</th>
+                        <th>@Resource.ResourceManager.GetString("Tool Count")</th>
+                        <th>@Resource.ResourceManager.GetString("Registered Date")</th>
+                        <th>@Resource.ResourceManager.GetString("Actions")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td><img class="img-fluid rounded-circle" style="height:70px; width:70px; object-fit:contain;" src="@(user.Avatar == null ?  "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1200px-No-Image-Placeholder.svg.png" : user.Avatar.Url())"></td>
+                            <td><a href="/Profile/ViewProfile/@user.Id">@user.Name</a></td>
+                            <td>@user.UserTools.Count</td>
+                            <td>@user.CreatedAt.ToString("dd:MM:yyyy")</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger delete-btn" data-id="@user.Id">@Resource.ResourceManager.GetString("Remove")</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id = this.dataset.id;
+                swal.fire({
+                    title: '@Resource.ResourceManager.GetString("Confirm deletion")',
+                    text: `@Resource.ResourceManager.GetString("Are you sure you want to delete") № ${id}`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: '@Resource.ResourceManager.GetString("Delete")'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/Admin/Users/remove/${id}`, {
+                            method: 'POST'
+                        }).then(response => {
+                            if (response.ok) {
+                                window.location.reload();
+                            } else {
+                                swal.fire({
+                                    title: '@Resource.ResourceManager.GetString("Error")',
+                                    text: `@Resource.ResourceManager.GetString("An error occurred. Please try again.")`,
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        }).catch(error => {
+                            console.error('Error:', error);
+                            swal.fire({
+                                title: '@Resource.ResourceManager.GetString("Error")',
+                                text: `@Resource.ResourceManager.GetString("An error occurred. Please try again.")`,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}
