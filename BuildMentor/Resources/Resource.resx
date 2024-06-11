@@ -135,6 +135,9 @@
   <data name="Address" xml:space="preserve">
     <value>Address</value>
   </data>
+  <data name="Address is required." xml:space="preserve">
+    <value>Address is required.</value>
+  </data>
   <data name="Admin" xml:space="preserve">
     <value>Admin</value>
   </data>
@@ -171,6 +174,9 @@
   <data name="Birth Date" xml:space="preserve">
     <value>Birth Date</value>
   </data>
+  <data name="Birth Date is required." xml:space="preserve">
+    <value>Birth Date is required.</value>
+  </data>
   <data name="Browse Tools" xml:space="preserve">
     <value>Browse Tools</value>
   </data>
@@ -189,6 +195,9 @@
   <data name="City" xml:space="preserve">
     <value>City</value>
   </data>
+  <data name="City is required." xml:space="preserve">
+    <value>City is required.</value>
+  </data>
   <data name="Comment" xml:space="preserve">
     <value>Comment</value>
   </data>
@@ -197,6 +206,9 @@
   </data>
   <data name="Confirm deletion" xml:space="preserve">
     <value>Confirm deletion</value>
+  </data>
+  <data name="Confirm Password is required." xml:space="preserve">
+    <value>Confirm Password is required.</value>
   </data>
   <data name="Copy Admin Email" xml:space="preserve">
     <value>Copy Admin Email</value>
@@ -209,6 +221,9 @@
   </data>
   <data name="Country" xml:space="preserve">
     <value>Country</value>
+  </data>
+  <data name="Country is required." xml:space="preserve">
+    <value>Country is required.</value>
   </data>
   <data name="Create an Account" xml:space="preserve">
     <value>Create an Account</value>
@@ -257,6 +272,9 @@
   </data>
   <data name="Email Does not Exist." xml:space="preserve">
     <value>Email Does not Exist.</value>
+  </data>
+  <data name="Email is required." xml:space="preserve">
+    <value>Email is required.</value>
   </data>
   <data name="Engineer" xml:space="preserve">
     <value>Engineer</value>
@@ -324,8 +342,14 @@
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="Login is required." xml:space="preserve">
+    <value>Login is required.</value>
+  </data>
   <data name="Login or Email" xml:space="preserve">
     <value>Login or Email</value>
+  </data>
+  <data name="LoginName" xml:space="preserve">
+    <value>Login</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
@@ -360,6 +384,9 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Name is required." xml:space="preserve">
+    <value>Name is required.</value>
+  </data>
   <data name="Needs Replacement" xml:space="preserve">
     <value>Needs Replacement</value>
   </data>
@@ -390,6 +417,21 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="Password is required." xml:space="preserve">
+    <value>Password is required.</value>
+  </data>
+  <data name="Password must be at least 8 characters long." xml:space="preserve">
+    <value>Password must be at least 8 characters long.</value>
+  </data>
+  <data name="Password must contain at least one digit." xml:space="preserve">
+    <value>Password must contain at least one digit.</value>
+  </data>
+  <data name="Password must contain at least one letter." xml:space="preserve">
+    <value>Password must contain at least one letter.</value>
+  </data>
+  <data name="Passwords do not match." xml:space="preserve">
+    <value>Passwords do not match.</value>
+  </data>
   <data name="Pending Admin Requests" xml:space="preserve">
     <value>Pending Admin Requests</value>
   </data>
@@ -407,6 +449,9 @@
   </data>
   <data name="Phone Number" xml:space="preserve">
     <value>Phone Number</value>
+  </data>
+  <data name="Phone Number is required." xml:space="preserve">
+    <value>Phone Number is required.</value>
   </data>
   <data name="Please select a file" xml:space="preserve">
     <value>Please select a file</value>
@@ -507,6 +552,9 @@
   <data name="Tool Count" xml:space="preserve">
     <value>Tool Count</value>
   </data>
+  <data name="Tool Details" xml:space="preserve">
+    <value>Tool Details</value>
+  </data>
   <data name="Tool Image" xml:space="preserve">
     <value>Tool Image</value>
   </data>
@@ -591,7 +639,13 @@
   <data name="You don't have permission to access this section." xml:space="preserve">
     <value>You don't have permission to access this section.</value>
   </data>
+  <data name="You must be at least 16 years old." xml:space="preserve">
+    <value>You must be at least 16 years old.</value>
+  </data>
   <data name="Your request has been submitted" xml:space="preserve">
     <value>Your request has been submitted</value>
+  </data>
+  <data name="Your tools will be here" xml:space="preserve">
+    <value>Your tools will be here</value>
   </data>
 </root>

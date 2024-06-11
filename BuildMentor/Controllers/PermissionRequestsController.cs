@@ -89,7 +89,7 @@ namespace BuildMentor.Controllers.Admin
             };
             _unitService.UserNotificationService.Add(notification);
             _unitService.ToolPermissionRequestService.Delete(id);
-            return Ok();
+            return Ok(new { Message = "Success!" });
         }
     }
 }

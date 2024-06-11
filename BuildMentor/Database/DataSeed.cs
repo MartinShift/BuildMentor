@@ -78,7 +78,7 @@ namespace BuildMentor.Database
         public async Task SeedData()
         {
             _context.Database.EnsureCreated();
-            _context.Database.Migrate();
+            //_context.Database.Migrate();
             var roles = GetDefaultRoles(); 
             _context.UserRoles.RemoveRange(_context.UserRoles);
             _context.Users.RemoveRange(_context.Users);

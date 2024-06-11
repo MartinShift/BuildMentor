@@ -61,7 +61,7 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 })
     .AddEntityFrameworkStores<BuildContext>()
     .AddDefaultTokenProviders();
-builder.Services.AddAuthentication()
+builder.Services.AddAuthentication();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(120);

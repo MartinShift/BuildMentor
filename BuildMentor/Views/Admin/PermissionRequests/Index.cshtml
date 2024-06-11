@@ -64,6 +64,10 @@
                             }
                             return response.json();
                         })
+                        .then(data => {
+                            swal.fire('@Resource.ResourceManager.GetString("Success")', '@Resource.ResourceManager.GetString("Request approved.")', 'success');
+                            window.location.reload();
+                        })
                         .catch(error => {
                             swal.showValidationMessage(
                                 `@Resource.ResourceManager.GetString("An error occurred. Please try again.")`,
@@ -71,11 +75,6 @@
                         })
                 },
                 allowOutsideClick: () => !swal.isLoading()
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    swal.fire('@Resource.ResourceManager.GetString("Success")', '@Resource.ResourceManager.GetString("Request approved.")', 'success');
-                    window.location.reload();
-                }
             });
         }
 
@@ -101,6 +100,10 @@
                             }
                             return response.json();
                         })
+                        .then(data => {
+                            swal.fire('@Resource.ResourceManager.GetString("Success")', '@Resource.ResourceManager.GetString("Request denied.")', 'success');
+                            window.location.reload();
+                        })
                         .catch(error => {
                             swal.showValidationMessage(
                                 `@Resource.ResourceManager.GetString("An error occurred. Please try again.")`,
@@ -108,11 +111,6 @@
                         })
                 },
                 allowOutsideClick: () => !swal.isLoading()
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    swal.fire('@Resource.ResourceManager.GetString("Success")', '@Resource.ResourceManager.GetString("Request denied.")', 'success');
-                    window.location.reload();
-                }
             });
         }
     </script>

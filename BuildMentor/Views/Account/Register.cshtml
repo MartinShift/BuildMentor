@@ -59,7 +59,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" id="Login" name="Login"
-                                               placeholder="@Resource.ResourceManager.GetString("Login")">
+                                               placeholder="@Resource.ResourceManager.GetString("LoginName")">
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control form-control-user" id="Name" name="Name"
@@ -95,11 +95,12 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="date" class="form-control form-control-user" id="BirthDate" name="BirthDate"
-                                               placeholder="@Resource.ResourceManager.GetString("City")">
+                                               placeholder="@Resource.ResourceManager.GetString("Birth Date")">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
+                                    <label class="form-label">@Resource.ResourceManager.GetString("User Avatar")</label>
                                     <input type="file" class="form-control" id="UploadedAvatar" name="UploadedAvatar"
                                            placeholder="@Resource.ResourceManager.GetString("User Avatar")">
                                 </div>
@@ -122,7 +123,7 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
-                                               id="RepeatPassword" name="RepeatPassword" placeholder="@Resource.ResourceManager.GetString("Repeat Password")">
+                                               id="ConfirmPassword" name="ConfirmPassword" placeholder="@Resource.ResourceManager.GetString("Repeat Password")">
                                     </div>
                                 </div>
 
@@ -159,16 +160,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.message) {
-                    Swal.fire({
-                        title: '@Resource.ResourceManager.GetString("Success")',
-                        text: '@Resource.ResourceManager.GetString("Success")',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = '/Profile/MyProfile';
-                        }
-                    });
+                       window.location.href = '/Profile/MyProfile';
                 } else {
                     Swal.fire({
                         title: '@Resource.ResourceManager.GetString("Error")',

@@ -4,7 +4,7 @@
     ViewData["Title"] = @Resource.ResourceManager.GetString("Tool Details");
     Layout = "_Layout";
 }
-
+<title>@ViewData["Title"]</title>
 <div class="row">
     <div class="col-md-12">
         @await Html.PartialAsync("_ToolDetails", (BuildMentor.Database.Entities.Tool)Model)
@@ -50,6 +50,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         swal.fire('@Resource.ResourceManager.GetString("Success")', '@Resource.ResourceManager.GetString("Request submitted")', 'success');
+                        window.location.href = "/User/BrowseTools";
                     }
                 });
             });

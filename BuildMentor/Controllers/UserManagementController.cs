@@ -29,9 +29,10 @@ namespace BuildMentor.Controllers
         }
 
         [HttpPost("/Admin/Users/Remove/{id}")]
-        public IActionResult Remove(int id, [FromBody] string message)
+        public async Task<IActionResult> Remove(int id)
         {
             var user = unitService.UserService.Get(id);
+            var admin = await userManager.GetUserAsync(User);
             foreach(var tool in user.UserTools)
             {
                 unitService.UserToolService.Delete(tool.Id);
@@ -50,8 +51,9 @@ namespace BuildMentor.Controllers
             userManager.RemoveFromRoleAsync(user, "USER");
             Task.Run(async () =>
             {
-                await unitService.SmtpService.UserRemovedAsync(user,message);
+                await unitService.SmtpService.UserRemovedAsync(user, admin.Email);
                 });
+
             unitService.UserService.Delete(id);
             
             return Ok(new { message = "Success" });

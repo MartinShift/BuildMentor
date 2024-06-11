@@ -115,6 +115,15 @@ namespace BuildMentor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Address is required..
+        /// </summary>
+        public static string Address_is_required_ {
+            get {
+                return ResourceManager.GetString("Address is required.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Admin.
         /// </summary>
         public static string Admin {
@@ -223,6 +232,15 @@ namespace BuildMentor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Birth Date is required..
+        /// </summary>
+        public static string Birth_Date_is_required_ {
+            get {
+                return ResourceManager.GetString("Birth Date is required.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Browse Tools.
         /// </summary>
         public static string Browse_Tools {
@@ -277,6 +295,15 @@ namespace BuildMentor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to City is required..
+        /// </summary>
+        public static string City_is_required_ {
+            get {
+                return ResourceManager.GetString("City is required.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comment.
         /// </summary>
         public static string Comment {
@@ -300,6 +327,15 @@ namespace BuildMentor.Resources {
         public static string Confirm_deletion {
             get {
                 return ResourceManager.GetString("Confirm deletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Password is required..
+        /// </summary>
+        public static string Confirm_Password_is_required_ {
+            get {
+                return ResourceManager.GetString("Confirm Password is required.", resourceCulture);
             }
         }
         
@@ -336,6 +372,15 @@ namespace BuildMentor.Resources {
         public static string Country {
             get {
                 return ResourceManager.GetString("Country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country is required..
+        /// </summary>
+        public static string Country_is_required_ {
+            get {
+                return ResourceManager.GetString("Country is required.", resourceCulture);
             }
         }
         
@@ -480,6 +525,15 @@ namespace BuildMentor.Resources {
         public static string Email_Does_not_Exist_ {
             get {
                 return ResourceManager.GetString("Email Does not Exist.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email is required..
+        /// </summary>
+        public static string Email_is_required_ {
+            get {
+                return ResourceManager.GetString("Email is required.", resourceCulture);
             }
         }
         
@@ -682,11 +736,29 @@ namespace BuildMentor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login is required..
+        /// </summary>
+        public static string Login_is_required_ {
+            get {
+                return ResourceManager.GetString("Login is required.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login or Email.
         /// </summary>
         public static string Login_or_Email {
             get {
                 return ResourceManager.GetString("Login or Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string LoginName {
+            get {
+                return ResourceManager.GetString("LoginName", resourceCulture);
             }
         }
         
@@ -790,6 +862,15 @@ namespace BuildMentor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name is required..
+        /// </summary>
+        public static string Name_is_required_ {
+            get {
+                return ResourceManager.GetString("Name is required.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Needs Replacement.
         /// </summary>
         public static string Needs_Replacement {
@@ -880,6 +961,51 @@ namespace BuildMentor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password is required..
+        /// </summary>
+        public static string Password_is_required_ {
+            get {
+                return ResourceManager.GetString("Password is required.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must be at least 8 characters long..
+        /// </summary>
+        public static string Password_must_be_at_least_8_characters_long_ {
+            get {
+                return ResourceManager.GetString("Password must be at least 8 characters long.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must contain at least one digit..
+        /// </summary>
+        public static string Password_must_contain_at_least_one_digit_ {
+            get {
+                return ResourceManager.GetString("Password must contain at least one digit.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must contain at least one letter..
+        /// </summary>
+        public static string Password_must_contain_at_least_one_letter_ {
+            get {
+                return ResourceManager.GetString("Password must contain at least one letter.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords do not match..
+        /// </summary>
+        public static string Passwords_do_not_match_ {
+            get {
+                return ResourceManager.GetString("Passwords do not match.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pending Admin Requests.
         /// </summary>
         public static string Pending_Admin_Requests {
@@ -930,6 +1056,15 @@ namespace BuildMentor.Resources {
         public static string Phone_Number {
             get {
                 return ResourceManager.GetString("Phone Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone Number is required..
+        /// </summary>
+        public static string Phone_Number_is_required_ {
+            get {
+                return ResourceManager.GetString("Phone Number is required.", resourceCulture);
             }
         }
         
@@ -1231,6 +1366,15 @@ namespace BuildMentor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tool Details.
+        /// </summary>
+        public static string Tool_Details {
+            get {
+                return ResourceManager.GetString("Tool Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tool Image.
         /// </summary>
         public static string Tool_Image {
@@ -1483,11 +1627,29 @@ namespace BuildMentor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You must be at least 16 years old..
+        /// </summary>
+        public static string You_must_be_at_least_16_years_old_ {
+            get {
+                return ResourceManager.GetString("You must be at least 16 years old.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your request has been submitted.
         /// </summary>
         public static string Your_request_has_been_submitted {
             get {
                 return ResourceManager.GetString("Your request has been submitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your tools will be here.
+        /// </summary>
+        public static string Your_tools_will_be_here {
+            get {
+                return ResourceManager.GetString("Your tools will be here", resourceCulture);
             }
         }
     }

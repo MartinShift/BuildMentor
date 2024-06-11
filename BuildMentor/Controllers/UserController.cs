@@ -31,7 +31,8 @@ namespace BuildMentor.Controllers
             var user = _unitService.UserService.Get(userId);
             var allTools = _unitService.ToolService.GetAll();
             var userTools = user.UserTools.Select(t => t.Tool.Id);
-            var toolsToBrowse = allTools.Where(t => !userTools.Contains(t.Id));
+            var requests = _unitService.ToolPermissionRequestService.GetAll().Where(r => r.UserId == userId);
+            var toolsToBrowse = allTools.Where(t => !userTools.Contains(t.Id)  && !requests.Any(x=> x.ToolId == t.Id));
 
             return View(toolsToBrowse);
         }
@@ -92,6 +93,7 @@ namespace BuildMentor.Controllers
         {
             var userId = int.Parse(_userManager.GetUserId(User));
             var user = _unitService.UserService.Get(userId);
+            var time = new TimeSpan(24, 0, 0);
             var adminRequest = new AdminRequest
             {
                 SenderId = userId,

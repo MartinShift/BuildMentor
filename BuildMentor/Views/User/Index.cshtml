@@ -20,4 +20,12 @@
             </div>
         </div>
     }
+    @if(!Model.UserTools.Any())
+    {
+        <div class="col-md-12">
+            <div class="alert alert-info" role="alert">
+                @Resource.ResourceManager.GetString("Your tools will be here")
+            </div>
+        </div>
+    }
 </div>

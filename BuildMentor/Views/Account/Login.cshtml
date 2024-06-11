@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <link rel="icon" href="/static/images/favicon.ico"/>
+    <link rel="icon" href="/static/images/favicon.ico" />
     <meta name="author" content="">
 
     <title>@ViewData["Title"]</title>
@@ -23,8 +23,8 @@
             -o-background-size: cover;
             background-size: cover;
         }
-        .login-image
-        {
+
+        .login-image {
             background: url('/static/images/login-image.png');
             background-position: center;
             background-size: cover;
@@ -40,7 +40,7 @@
 </head>
 
 <body>
-<form id="loginForm" method="post" action="/Account/Login">
+    <form id="loginForm" method="post" action="/Account/Login">
         <div class="container">
 
             <div class="row justify-content-center">
@@ -85,49 +85,44 @@
             </div>
 
         </div>
-</form>
+    </form>
     <script src="~/vendor/jquery/jquery.min.js"></script>
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="~/js/sb-admin-2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
 
-        fetch('/Account/Login', {
-            method: 'POST',
-            body: new FormData(this)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                 Swal.fire({
-                            title: '@Resource.ResourceManager.GetString("Success")',
-                            icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-                    if (result.isConfirmed) {
+            fetch('/Account/Login', {
+                method: 'POST',
+                body: new FormData(this)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
                         window.location.href = `${data.admin == true ? "/Admin" : "/User"}`;
-                    }
-                });
-            } else {
-                Swal.fire({
-                            title: '@Resource.ResourceManager.GetString("Error")',
-                            text: data.text,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
-        })
-        .catch(error => {
+                    } else {
+            console.log(data);
             Swal.fire({
-                        title: '@Resource.ResourceManager.GetString("Error")',
+                title: '@Resource.ResourceManager.GetString("Error")',
+                text: data.error,
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
-        });
-    });
-</script>
+        }
+                })
+            .catch(error => {
+                console.log(error);
+                Swal.fire({
+                    title: '@Resource.ResourceManager.GetString("Error")',
+                    text: error,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
+            });
+    </script>
 </body>
 </html>

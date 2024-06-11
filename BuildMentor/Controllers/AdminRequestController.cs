@@ -44,7 +44,7 @@ namespace BuildMentor.Controllers
             return Ok(new { Message = "Success" });
         }
 
-        [HttpPost("/Admin/Requests/Reject/{id}")]
+        [HttpPost("/Admin/AdminRequests/Reject/{id}")]
         public async Task<IActionResult> Reject(int id, [FromBody] string comment)
         {
             var request = unitService.AdminRequestService.Get(id);
@@ -53,7 +53,7 @@ namespace BuildMentor.Controllers
 
             await Task.Run(async () =>
             {
-                await unitService.SmtpService.AdminRequestApprovedAsync(request.Sender, comment);
+                await unitService.SmtpService.AdminRequestRejectedAsync(request.Sender, comment);
             });
             var notfication = new UserNotification
             {

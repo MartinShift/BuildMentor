@@ -89,7 +89,7 @@ namespace BuildMentor.Services
 				City = user.City,
 				Country = user.Country,
 				IsAdmin = isAdmin,
-				BirthDate = user.BirthDate,
+				BirthDate = user.BirthDate.ToDateTime(TimeOnly.MinValue),
 				Address = user.Address,
 				Job = user.Job,
 				ReceivedNotifications = user.ReceivedNotifications,

@@ -135,6 +135,9 @@
   <data name="Address" xml:space="preserve">
     <value>Адреса</value>
   </data>
+  <data name="Address is required." xml:space="preserve">
+    <value>Адреса є обов'язкова.</value>
+  </data>
   <data name="Admin" xml:space="preserve">
     <value>Адмін</value>
   </data>
@@ -171,6 +174,9 @@
   <data name="Birth Date" xml:space="preserve">
     <value>Дата народження</value>
   </data>
+  <data name="Birth Date is required." xml:space="preserve">
+    <value>Дата народження є обов'язкова</value>
+  </data>
   <data name="Browse Tools" xml:space="preserve">
     <value>Перегляд інструментів</value>
   </data>
@@ -189,6 +195,9 @@
   <data name="City" xml:space="preserve">
     <value>Місто</value>
   </data>
+  <data name="City is required." xml:space="preserve">
+    <value>Місто є обов'язкове</value>
+  </data>
   <data name="Comment" xml:space="preserve">
     <value>Коментар</value>
   </data>
@@ -197,6 +206,9 @@
   </data>
   <data name="Confirm deletion" xml:space="preserve">
     <value>Підтвердити видалення</value>
+  </data>
+  <data name="Confirm Password is required." xml:space="preserve">
+    <value>Підвердження пароля є обов'язкове.</value>
   </data>
   <data name="Copy Admin Email" xml:space="preserve">
     <value>Копіювати пошту адміністратора</value>
@@ -209,6 +221,9 @@
   </data>
   <data name="Country" xml:space="preserve">
     <value>Країна</value>
+  </data>
+  <data name="Country is required." xml:space="preserve">
+    <value>Країна є обов'язкова.</value>
   </data>
   <data name="Create an Account" xml:space="preserve">
     <value>Створити Аккаунт</value>
@@ -257,6 +272,9 @@
   </data>
   <data name="Email Does not Exist." xml:space="preserve">
     <value>Такої пошти не існує</value>
+  </data>
+  <data name="Email is required." xml:space="preserve">
+    <value>Пошта є обов'язкова.</value>
   </data>
   <data name="Engineer" xml:space="preserve">
     <value>Інженер</value>
@@ -324,8 +342,14 @@
   <data name="Login" xml:space="preserve">
     <value>Вхід</value>
   </data>
+  <data name="Login is required." xml:space="preserve">
+    <value>Логін є обов'язковий.</value>
+  </data>
   <data name="Login or Email" xml:space="preserve">
     <value>Логін або Пошта</value>
+  </data>
+  <data name="LoginName" xml:space="preserve">
+    <value>Логін</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Вихід</value>
@@ -360,6 +384,9 @@
   <data name="Name" xml:space="preserve">
     <value>Ім'я</value>
   </data>
+  <data name="Name is required." xml:space="preserve">
+    <value>Ім'я є обов'язкове.</value>
+  </data>
   <data name="Needs Replacement" xml:space="preserve">
     <value>Потрібна заміна</value>
   </data>
@@ -390,6 +417,21 @@
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>
+  <data name="Password is required." xml:space="preserve">
+    <value>Пароль є обов'язковий.</value>
+  </data>
+  <data name="Password must be at least 8 characters long." xml:space="preserve">
+    <value>Пароль має містити мінімум 8 символів </value>
+  </data>
+  <data name="Password must contain at least one digit." xml:space="preserve">
+    <value>Пароль має містити мінімум 1 цифру</value>
+  </data>
+  <data name="Password must contain at least one letter." xml:space="preserve">
+    <value>Пароль має містити мінімум 1 літеру</value>
+  </data>
+  <data name="Passwords do not match." xml:space="preserve">
+    <value>Паролі не співпадають</value>
+  </data>
   <data name="Pending Admin Requests" xml:space="preserve">
     <value>Вхідні запити на Адміністратора</value>
   </data>
@@ -407,6 +449,9 @@
   </data>
   <data name="Phone Number" xml:space="preserve">
     <value>Номер телефону</value>
+  </data>
+  <data name="Phone Number is required." xml:space="preserve">
+    <value>Номер телефону є обов'язковий.</value>
   </data>
   <data name="Please select a file" xml:space="preserve">
     <value>Виберіть файл</value>
@@ -504,6 +549,9 @@
   <data name="Tool Count" xml:space="preserve">
     <value>Кількість інструментів</value>
   </data>
+  <data name="Tool Details" xml:space="preserve">
+    <value>Деталі Інструмента</value>
+  </data>
   <data name="Tool Image" xml:space="preserve">
     <value>Картинка інструмента</value>
   </data>
@@ -523,13 +571,13 @@
     <value>Потібен ремонт</value>
   </data>
   <data name="ToolPermissionRemoved" xml:space="preserve">
-    <value>Дозвіл видалено</value>
+    <value>Дозвіл інструменту видалено</value>
   </data>
   <data name="ToolPermissionRequestApproved" xml:space="preserve">
-    <value>Запит прийнято</value>
+    <value>Запит на дозвіл інструменту прийнято</value>
   </data>
   <data name="ToolPermissionRequestDenied" xml:space="preserve">
-    <value>Запит відхилено</value>
+    <value>Запит на дозвіл інструменту  відхилено</value>
   </data>
   <data name="Tools" xml:space="preserve">
     <value>Інструменти</value>
@@ -541,7 +589,7 @@
     <value>Активний ремонт</value>
   </data>
   <data name="Update Tool" xml:space="preserve">
-    <value>Змінтити інструмент</value>
+    <value>Змінити інструмент</value>
   </data>
   <data name="Upload failed" xml:space="preserve">
     <value>Помилка завантаження</value>
@@ -588,7 +636,13 @@
   <data name="You don't have permission to access this section." xml:space="preserve">
     <value>У вас немає дозволу на доступ до цього розділу.</value>
   </data>
+  <data name="You must be at least 16 years old." xml:space="preserve">
+    <value>Вам має бути мінімум 16 років</value>
+  </data>
   <data name="Your request has been submitted" xml:space="preserve">
     <value>Ваш запит подано</value>
+  </data>
+  <data name="Your tools will be here" xml:space="preserve">
+    <value>Тут будуть ваші інстументи</value>
   </data>
 </root>

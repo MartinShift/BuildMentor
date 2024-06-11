@@ -46,7 +46,6 @@
                 const id = this.dataset.id;
                 swal.fire({
                     title: '@Resource.ResourceManager.GetString("Confirm deletion")',
-                    text: `@Resource.ResourceManager.GetString("Are you sure you want to delete") № ${id}`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
@@ -54,7 +53,7 @@
                     confirmButtonText: '@Resource.ResourceManager.GetString("Delete")'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        fetch(`/Admin/Users/remove/${id}`, {
+                        fetch(`/Admin/Users/Remove/${id}`, {
                             method: 'POST'
                         }).then(response => {
                             if (response.ok) {
@@ -62,7 +61,6 @@
                             } else {
                                 swal.fire({
                                     title: '@Resource.ResourceManager.GetString("Error")',
-                                    text: `@Resource.ResourceManager.GetString("An error occurred. Please try again.")`,
                                     icon: 'error',
                                     confirmButtonText: 'OK'
                                 });
@@ -71,7 +69,6 @@
                             console.error('Error:', error);
                             swal.fire({
                                 title: '@Resource.ResourceManager.GetString("Error")',
-                                text: `@Resource.ResourceManager.GetString("An error occurred. Please try again.")`,
                                 icon: 'error',
                                 confirmButtonText: 'OK'
                             });

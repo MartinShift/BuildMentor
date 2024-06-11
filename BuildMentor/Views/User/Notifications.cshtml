@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<BuildMentor.Database.Entities.UserNotification>
 @using BuildMentor.Database.Enums
 @using BuildMentor.Resources;
+@using Humanizer;
 @{
     Layout = "_Layout";
     ViewData["Title"] = @Resource.ResourceManager.GetString("Notifications");
@@ -15,7 +16,7 @@
         {
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">@Resource.ResourceManager.GetString("From"): @item.Admin.Email</h6>
+                    <h5 class="m-0 font-weight-bold text-primary">@Resource.ResourceManager.GetString("From"): @item.Admin.Email</h5>
                     <div class="dropdown no-arrow show">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -31,8 +32,12 @@
                 </div>
                 <div class="card-body">
                     <div class="mb-2 mt-2">
+                        <h4 class="m-0 font-weight-bold text-secondary">@Resource.ResourceManager.GetString(item.Type.ToString())</h4>
                         <p class="text-gray p-2">
-                            @item.Comment
+                            <span style="font-weight:bold">@Resource.ResourceManager.GetString("Message"):</span> @item.Comment
+                        </p>
+                        <p class="text-muted small">
+                            @((DateTime.Now - item.CreatedDate).Humanize())
                         </p>
                     </div>
                     @if (item.Type == NotificationType.MantenaceCompleted)

@@ -52,9 +52,66 @@ namespace BuildMentor.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromForm] RegisterModel model)
         {
-            if (!ModelState.IsValid)
+            model.Login = model.Login?.Trim();
+            if(string.IsNullOrEmpty(model.Login))
             {
-                return BadRequest(new { Error = string.Join(",", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList()) });
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Login is required.") });
+            }
+            if (string.IsNullOrEmpty(model.Name))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Name is required.") });
+            }
+            if (string.IsNullOrEmpty(model.Email))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Email is required.") });
+            }
+            if (string.IsNullOrEmpty(model.Password))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Password is required.") });
+            }
+            if (string.IsNullOrEmpty(model.ConfirmPassword))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Confirm Password is required.") });
+            }
+            if (string.IsNullOrEmpty(model.PhoneNumber))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Phone Number is required.") });
+            }
+            if (string.IsNullOrEmpty(model.City))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("City is required.") });
+            }
+            if (string.IsNullOrEmpty(model.Country))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Country is required.") });
+            }
+            if (string.IsNullOrEmpty(model.Address))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Address is required.") });
+            }
+            if (model.BirthDate == null)
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Birth Date is required.") });
+            }
+            if(DateTime.Now.Year - model.BirthDate.Year < 16)
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("You must be at least 16 years old.") });
+            }
+            if(model.Password != model.ConfirmPassword)
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Passwords do not match.") });
+            }
+            if(model.Password.Length < 8)
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Password must be at least 8 characters long.") });
+            }
+            if(model.Password.Any(char.IsLetter) == false)
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Password must contain at least one letter.") });
+            }
+            if(model.Password.Any(char.IsDigit) == false)
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Password must contain at least one digit.") });
             }
             var existingLogin = await _userManager.FindByNameAsync(model.Login);
             if (existingLogin != null)
@@ -67,6 +124,10 @@ namespace BuildMentor.Controllers
             {
                 return BadRequest(new { Error = Resource.ResourceManager.GetString("The email is already in use.") });
             }
+            if(model.Password != model.ConfirmPassword)
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Passwords do not match.") });
+            }
 
             var user = new User
             {
@@ -78,9 +139,11 @@ namespace BuildMentor.Controllers
                 Country = model.Country,
                 Address = model.Address,
                 Job = model.Job,
+                BirthDate = DateOnly.FromDateTime(model.BirthDate),
+                CreatedAt = DateTime.Now.Date
             };
 
-            await Task.Run(async () =>
+            Task.Run(async () =>
             {
                 await service.SmtpService.WelcomeEmail(user);
             });
@@ -134,10 +197,16 @@ namespace BuildMentor.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromForm] LoginModel model)
         {
-            if (!ModelState.IsValid)
+            model.LoginOrEmail = model.LoginOrEmail?.Trim();
+            if (string.IsNullOrEmpty(model.LoginOrEmail))
             {
-                return BadRequest(new { Message = ModelState.ErrorCount, Error = Resource.ResourceManager.GetString("Invalid Model State") });
+                return BadRequest(new { Message = "", Error = Resource.ResourceManager.GetString("No Such Login Exists") });
             }
+            if (string.IsNullOrEmpty(model.Password))
+            {
+                return BadRequest(new { Message = "", Error = Resource.ResourceManager.GetString("Wrong Password!") });
+            }
+
             var existingEmail = await _userManager.FindByEmailAsync(model.LoginOrEmail);
             var existingLogin = await _userManager.FindByNameAsync(model.LoginOrEmail);
             if (existingLogin == null && existingEmail == null)

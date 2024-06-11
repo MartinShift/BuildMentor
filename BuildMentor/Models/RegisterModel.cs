@@ -20,6 +20,10 @@ namespace BuildMentor.Models
 
         public string Password { get; set; }    
 
+        public string ConfirmPassword { get; set; }
+
+        public DateTime BirthDate { get; set; }
+
         public BuilderJobs Job { get; set; }
 
         public IFormFile? UploadedAvatar { get; set; }

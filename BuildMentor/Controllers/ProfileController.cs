@@ -1,6 +1,7 @@
 ﻿using BuildMentor.Database;
 using BuildMentor.Database.Entities;
 using BuildMentor.Models;
+using BuildMentor.Resources;
 using BuildMentor.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -60,7 +61,38 @@ namespace BuildMentor.Controllers
         [HttpPost]
         public async Task<IActionResult> EditProfile([FromForm] UserProfile model)
         {
-
+            if (string.IsNullOrEmpty(model.Name))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Name is required.") });
+            }
+            if (string.IsNullOrEmpty(model.Email))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Email is required.") });
+            }
+            if (string.IsNullOrEmpty(model.PhoneNumber))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Phone Number is required.") });
+            }
+            if (string.IsNullOrEmpty(model.City))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("City is required.") });
+            }
+            if (string.IsNullOrEmpty(model.Country))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Country is required.") });
+            }
+            if (string.IsNullOrEmpty(model.Address))
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Address is required.") });
+            }
+            if (model.BirthDate == null)
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("Birth Date is required.") });
+            }
+            if (DateTime.Now.Year - model.BirthDate.Year < 16)
+            {
+                return BadRequest(new { Error = Resource.ResourceManager.GetString("You must be at least 16 years old.") });
+            }
             var user = await _userManager.GetUserAsync(User);
 
             if (user != null)
@@ -71,7 +103,7 @@ namespace BuildMentor.Controllers
                 user.Job = model.Job;
                 user.PhoneNumber = model.PhoneNumber;
                 user.City = model.City;
-                user.BirthDate = model.BirthDate >= new DateOnly(1900, 1, 1) ? model.BirthDate : user.BirthDate;
+                user.BirthDate = DateOnly.FromDateTime(model.BirthDate) >= new DateOnly(1900, 1, 1) ? DateOnly.FromDateTime(model.BirthDate) : user.BirthDate;
                 user.Country = model.Country;
                 user.Address = model.Address;
 

@@ -29,7 +29,7 @@ namespace BuildMentor.Models
 
         public BuilderJobs Job { get; set; }
 
-        public DateOnly BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         public IFormFile? UploadedAvatar { get; set; }
 
